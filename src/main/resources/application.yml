@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: DB_document
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/homework
+    username: root
+    password: 147852963!Cky
+
+mybatis:
+  type-aliases-package: com.example.document.pojo
+  mapper-locations: classpath:mapper/*.xml

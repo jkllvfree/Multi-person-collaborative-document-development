@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.db_document.mapper.UserMapper">
+
+    <!-- 1. 新增用户 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user
+        (nickname, password, phone_num, email, avatarUrl, create_time, update_time, is_deleted)
+        VALUES
+            (#{nickname}, #{password}, #{phoneNum}, #{email}, #{avatarUrl}, NOW(), NOW(), 0)
+    </insert>
+
+    <!-- 2. 根据邮箱查询 -->
+    <select id="selectByEmail" resultType="com.example.db_document.pojo.User">
+        SELECT *
+        FROM user
+        WHERE email = #{email}
+          AND is_deleted = 0
+    </select>
+
+    <!-- 3. 根据手机号查询 -->
+    <select id="selectByPhone" resultType="com.example.db_document.pojo.User">
+        SELECT *
+        FROM user
+        WHERE phone_num = #{phone}
+          AND is_deleted = 0
+    </select>
+
+    <select id ="selectByNickname" resultType="com.example.db_document.pojo.User">
+        SELECT *
+        FROM user
+        WHERE nickname = #{nickname}
+          AND is_deleted = 0
+    </select>
+
+</mapper>
