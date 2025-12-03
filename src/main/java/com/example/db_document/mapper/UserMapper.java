@@ -24,4 +24,6 @@ public interface UserMapper {
     User selectByPhone(@Param("phone") String phone);
 
     User selectByNickname(@Param("nickname") String nickname);
+
+    User selectByAccount(@Param("account") String account);
 }

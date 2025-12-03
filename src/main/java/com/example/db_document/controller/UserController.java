@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping("/login")
     public JsonResult<User> login(@RequestBody LoginRequest req) {
         try{
-            User user = userService.login(req.nickname, req.password);
+            User user = userService.login(req.account, req.password);
             user.setPassword(null);
             return JsonResult.success(user);
         }catch (IllegalArgumentException e) {

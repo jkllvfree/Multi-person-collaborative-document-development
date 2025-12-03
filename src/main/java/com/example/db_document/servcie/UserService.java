@@ -15,22 +15,23 @@ public class UserService {
     }
 
 //先写个用名称登录的
-    public User login(String nickname, String password){
-        if (nickname == null || (nickname = nickname.trim()).isEmpty()) {
-            throw new IllegalArgumentException("昵称不能为空");
+    public User login(String account, String password){
+        if (account == null || (account = account.trim()).isEmpty()) {
+            throw new IllegalArgumentException("账号不能为空");
         }
         if (password == null || password.isEmpty()) {
             throw new IllegalArgumentException("密码不能为空");
         }
 
-        User user = userMapper.selectByNickname(nickname);
+        User user = userMapper.selectByAccount(account);
         if (user == null){
             throw new IllegalArgumentException("用户不存在");
         }
         if (!user.getPassword().equals(password)) {
-            throw new IllegalArgumentException("密码错误"); // 或者返回 null
+            throw new IllegalArgumentException("账号或密码错误"); // 或者返回 null
         }
 
+        System.out.println("登录成功，欢迎 " + user.getNickname());
         user.setPassword(null); // 登录成功后，不返回密码，确保安全
         return user;
     }
@@ -59,6 +60,11 @@ public class UserService {
             throw new RuntimeException("该号码已被注册");
         }
 
+        User nameUser = userMapper.selectByNickname(nickname);
+        if (nameUser != null) {
+            throw new RuntimeException("该昵称已被使用");
+        }
+
         User newUser = new User();
         newUser.setPhoneNum(phone);
         newUser.setNickname(nickname);
@@ -83,6 +89,11 @@ public class UserService {
         User existUser = userMapper.selectByEmail(email); // 调用接口方法
         if (existUser != null) {
             throw new RuntimeException("该邮箱已被注册");
+        }
+
+        User nameUser = userMapper.selectByNickname(nickname);
+        if (nameUser != null) {
+            throw new RuntimeException("该昵称已被使用");
         }
 
         // 没有重复，就开始创建一个新的user

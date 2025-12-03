@@ -30,10 +30,17 @@
           AND is_deleted = 0
     </select>
 
-    <select id ="selectByNickname" resultType="com.example.db_document.pojo.User">
+    <select id="selectByAccount" resultType="com.example.db_document.pojo.User">
         SELECT *
         FROM user
-        WHERE nickname = #{nickname}
+        WHERE (nickname = #{account} OR email = #{account} OR phone_num = #{account})
+          AND is_deleted = 0
+    </select>
+
+    <select id="selectByNickname" resultType="com.example.db_document.pojo.User">
+        SELECT *
+        FROM user
+        WHERE (nickname = #{nickname})
           AND is_deleted = 0
     </select>
 
