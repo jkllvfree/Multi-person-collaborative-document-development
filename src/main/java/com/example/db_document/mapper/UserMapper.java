@@ -12,9 +12,9 @@ public interface UserMapper {
      */
     int insert(User user);
 
+    int updateName(Long userId, String newName);
     /**
      * 根据邮箱查询用户（用于登录或查重）
-     * @Param("email") 是为了在 XML 中能用 #{email} 引用这个参数
      */
     User selectByEmail(@Param("email") String email);
 

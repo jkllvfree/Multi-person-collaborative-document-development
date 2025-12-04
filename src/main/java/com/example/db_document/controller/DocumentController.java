@@ -2,7 +2,6 @@ package com.example.db_document.controller;
 
 import com.example.db_document.model.dto.DocumentCreateRequest;
 import com.example.db_document.pojo.Document;
-import com.example.db_document.pojo.Folder;
 import com.example.db_document.pojo.JsonResult;
 import com.example.db_document.servcie.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
