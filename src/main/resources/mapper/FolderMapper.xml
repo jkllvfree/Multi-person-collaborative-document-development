@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.db_document.mapper.FolderMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO folder
+        (name, creator_id, parent_id)
+        VALUES
+            (#{name}, #{creatorId}, #{parentId})
+    </insert>
+
+    <select id="selectById" resultType="com.example.db_document.pojo.Folder">
+        SELECT *
+        FROM folder
+        WHERE id = #{id}
+          AND is_deleted = 0
+    </select>
+
+
+    <select id="countByNameAndParentId" resultType="int">
+        SELECT COUNT(*)
+        FROM folder
+        WHERE name = #{name}
+        AND  is_deleted = 0
+            <choose>
+                <!-- 如果传入了具体的ID，就查 parent_id = ID -->
+                <when test="parentId != null">
+                    AND parent_id = #{parentId}
+                </when>
+                <!-- 如果传入 null，说明查根目录，用 IS NULL -->
+                <otherwise>
+                    AND parent_id IS NULL
+                </otherwise>
+            </choose>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectByParentId" resultType="com.example.db_document.pojo.Folder">
+        SELECT *
+        FROM folder
+        <where>
+            is_deleted = 0
+            <choose>
+                <!-- 如果传入了具体的ID，就查 parent_id = ID -->
+                <when test="parentId != null">
+                    AND parent_id = #{parentId}
+                </when>
+                <!-- 如果传入 null，说明查根目录，用 IS NULL -->
+                <otherwise>
+                    AND parent_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <update id="softDeleteById">
+        UPDATE folder
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="changeParentId">
+        UPDATE folder
+        SET parent_id = #{newParentId}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -37,10 +37,10 @@ public class UserService {
     }
 
     public void register(RegisterRequest req) {
-        if (req.phoneNum != null && !req.phoneNum.isBlank()) {
-            this.registerByPhone(req.phoneNum, req.nickname, req.password);
+        if (req.getPhoneNum() != null && !req.getPhoneNum().isBlank()) {
+            this.registerByPhone(req.getPhoneNum(), req.getNickname(), req.getPassword());
         } else {
-            this.registerByEmail(req.email, req.nickname, req.password);
+            this.registerByEmail(req.getPhoneNum(), req.getNickname(), req.getPassword());
         }
     }
 
@@ -60,6 +60,10 @@ public class UserService {
             throw new RuntimeException("该号码已被注册");
         }
 
+        if (nickname == null || (nickname = nickname.trim()).isEmpty()) {
+            throw new IllegalArgumentException("昵称不能为空");
+        }
+
         User nameUser = userMapper.selectByNickname(nickname);
         if (nameUser != null) {
             throw new RuntimeException("该昵称已被使用");
@@ -67,7 +71,7 @@ public class UserService {
 
         User newUser = new User();
         newUser.setPhoneNum(phone);
-        newUser.setNickname(nickname);
+        newUser.setNickname(nickname.trim());
         // 实际开发中密码必须加密，不能存明文！
         // newUser.setPassword(passwordEncoder.encode(password));
         newUser.setPassword(password);
@@ -91,6 +95,11 @@ public class UserService {
             throw new RuntimeException("该邮箱已被注册");
         }
 
+        if (nickname == null || (nickname = nickname.trim()).isEmpty()) {
+            throw new IllegalArgumentException("昵称不能为空");
+        }
+
+
         User nameUser = userMapper.selectByNickname(nickname);
         if (nameUser != null) {
             throw new RuntimeException("该昵称已被使用");
@@ -99,7 +108,7 @@ public class UserService {
         // 没有重复，就开始创建一个新的user
         User newUser = new User();
         newUser.setEmail(email);
-        newUser.setNickname(nickname);
+        newUser.setNickname(nickname.trim());
         // 实际开发中密码必须加密，不能存明文！
         // newUser.setPassword(passwordEncoder.encode(password));
         newUser.setPassword(password);

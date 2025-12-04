@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService userService;
-//注册测试成功，但是有潜在问题：没有区分nickname是否已经有了
+
     @PostMapping("/register")
     public JsonResult<User> register(@RequestBody RegisterRequest req) {    //这里用jsonObject可以吗
         try{
@@ -36,12 +36,13 @@ public class UserController {
     @PostMapping("/login")
     public JsonResult<User> login(@RequestBody LoginRequest req) {
         try{
-            User user = userService.login(req.account, req.password);
+            User user = userService.login(req.getAccount(), req.getPassword());
             user.setPassword(null);
             return JsonResult.success(user);
         }catch (IllegalArgumentException e) {
             return JsonResult.error(e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             return JsonResult.error("系统内部错误");
         }
     }

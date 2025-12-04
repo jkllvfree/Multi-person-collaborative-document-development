@@ -1,6 +1,8 @@
 package com.example.db_document.model.dto;
+import lombok.Data;
 
+@Data
 public class LoginRequest {
-    public String account;
-    public String password;
+    private String account;
+    private String password;
 }

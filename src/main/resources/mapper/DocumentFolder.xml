@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.db_document.mapper.DocumentMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO document
+            (name, folder_id, content, creator_id)
+        VALUES
+            (#{name}, #{folderId},#{content} ,#{creatorId})
+    </insert>
+
+    <update id="softDeleteById">
+        UPDATE document
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultType="com.example.db_document.pojo.Document">
+        SELECT *
+        FROM document
+        WHERE id = #{id}
+          AND is_deleted = 0
+    </select>
+
+    <select id="countByNameAndFolderId" resultType="int">
+        SELECT COUNT(*)
+        FROM document
+        WHERE name = #{name}
+          AND folder_id = #{folderId}
+          AND is_deleted = 0
+    </select>
+
+    <update id="changeFolderId">
+        UPDATE document
+        SET folder_id = #{newFolderId}
+        WHERE id = #{documentId}
+          AND is_deleted = 0
+    </update>
+</mapper>

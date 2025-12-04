@@ -9,9 +9,9 @@
     <!-- 1. 新增用户 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user
-        (nickname, password, phone_num, email, avatarUrl, create_time, update_time, is_deleted)
+        (nickname, password, phone_num, email)
         VALUES
-            (#{nickname}, #{password}, #{phoneNum}, #{email}, #{avatarUrl}, NOW(), NOW(), 0)
+            (#{nickname}, #{password}, #{phoneNum}, #{email})
     </insert>
 
     <!-- 2. 根据邮箱查询 -->

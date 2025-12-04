@@ -1,5 +1,7 @@
 package com.example.db_document.pojo;
+import lombok.Data;
 
+@Data
 public class JsonResult<T> {
     private int code;
     private String msg;          //提示信息
@@ -21,10 +23,4 @@ public class JsonResult<T> {
         return new JsonResult<>(500, msg, null);
     }
 
-    public int getCode() { return code; }
-    public void setCode(int code) { this.code = code; }
-    public String getMsg() { return msg; }
-    public void setMsg(String msg) { this.msg = msg; }
-    public T getData() { return data; }
-    public void setData(T data) { this.data = data; }
 }
